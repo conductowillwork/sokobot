@@ -1,40 +1,31 @@
 package solver;
 
-public class Position{
-    private int x, y;
+public class Position {
+    private final int x, y;
+    public Position(int x, int y) { this.x = x; this.y = y; }
+    public int getX() { return x; }
+    public int getY() { return y; }
 
-    public Position(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-
-    public int getX(){
-        return x;
-    }
-
-    public int getY(){
-        return y;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
+        Position p = (Position) o;
+        return x == p.x && y == p.y;
     }
 
     @Override
-    public boolean equals(Object pos){
-        Position newPos = (Position) pos;
-
-        if (this.x == newPos.x && this.y == newPos.y){
-            return true;
-        }else{
-            return false;
-        }
+    public int hashCode() {
+        return x * 31 + y;
     }
 
-    // adds hash code to x and y
-    @Override
-    public int hashCode(){
-        int hash;
+    public int toIndex(int width) {
+        return x * width + y;
+    }
 
-        // adds hash on x and y
-        hash = x * 10000 + y;
-
-        return hash;
+    public static Position fromIndex(int index, int width) {
+        int rx = index / width;
+        int ry = index % width;
+        return new Position(rx, ry);
     }
 }
